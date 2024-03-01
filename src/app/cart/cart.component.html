@@ -1,0 +1,23 @@
+<h3 *ngIf="!orderSubmitted">Cart</h3>
+<p *ngIf="!items.length && !orderSubmitted">no products...</p>
+<div class="cart-item" *ngFor="let item of items">
+	<span>{{ item.name }}</span>
+	<span>{{ item.price | currency }}</span>
+	<button (click)="onDelete(item.id)">Delete</button>
+</div>
+<form *ngIf="items.length" [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+	<div><label for="name">Name</label><input id="name" type="text" formControlName="name" /></div>
+	<div><label for="address">Addres</label><input id="address" type="text" formControlName="address" /></div>
+	<button [disabled]="!items.length" type="submit" class="button">Purchase</button>
+</form>
+<div *ngIf="orderSubmitted">
+	<h4>Your order has been submitted:</h4>
+	<p>{{ name }}</p>
+	<p>{{ address }}</p>
+	<ul *ngFor="let item of orderItems">
+		<li>
+			{{ item.name }} <span>{{ item.price | currency }}</span>
+		</li>
+	</ul>
+</div>
+<a *ngIf="items.length" routerLink="/shipping">Shipping Prices</a>
